@@ -1,0 +1,49 @@
+/* SwipeNav 回溯/前进按钮 */
+#swipenav-bar {
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  gap: 4px;
+  top: 0;
+  left: 40px;
+  height: 2.5em;
+  pointer-events: none;           /* 容器本身不挡点击 */
+}
+#swipenav-bar.swipenav-center {
+  left: 50% !important;
+  transform: translateX(-50%);
+}
+#swipenav-bar button {
+  pointer-events: auto;
+  box-sizing: border-box;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #222;
+  color: #eee;
+  border: 1px solid #444;
+  border-radius: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+#swipenav-bar button svg {
+  width: 55%;
+  height: 55%;
+  stroke: currentColor;
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+#swipenav-bar button:active:not([disabled]) {
+  background: #333;
+}
+#swipenav-bar button[disabled] {
+  opacity: 0.3;
+  cursor: default;
+}

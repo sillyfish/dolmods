@@ -1,0 +1,20 @@
+{
+  "name": "SwipeNav",
+  "version": "0.1.1",
+  "styleFileList": [
+    "swipenav.css"
+  ],
+  "scriptFileList_earlyload": [],
+  "scriptFileList_inject_early": [],
+  "scriptFileList_preload": [
+    "swipenav.js"
+  ],
+  "scriptFileList": [],
+  "tweeFileList": [],
+  "imgFileList": [],
+  "additionFile": [
+    "readme.md"
+  ],
+  "addonPlugin": [],
+  "dependenceInfo": []
+}
