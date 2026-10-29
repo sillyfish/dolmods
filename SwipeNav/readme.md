@@ -1,4 +1,6 @@
 SwipeNav 滑动翻页 V0.1.1
+点此下载模组文件：[SwipeNav](https://github.com/sillyfish/dolmods/releases/tag/swipenav-v0.1.1)
+
 ### 功能
 * 页面顶部加了"上一步/下一步"两个按钮。
 * 全屏左右滑动翻页：从左往右滑 = 回到上一步，从右往左滑 = 前进到下一步。
