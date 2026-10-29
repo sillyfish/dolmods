@@ -1,0 +1,24 @@
+/* 撒油拿拉：给原版文字动画换颜色 */
+.drunk-text.sayo-glow-green, .jitter-text.sayo-glow-green { text-shadow: 0 0 7px var(--150), 0 0 22px var(--green), 0 0 32px var(--green); }
+.drunk-text.sayo-glow-gold,  .jitter-text.sayo-glow-gold  { text-shadow: 0 0 7px var(--150), 0 0 22px var(--gold), 0 0 32px var(--gold); }
+.drunk-text.sayo-glow-red,   .jitter-text.sayo-glow-red   { text-shadow: 0 0 7px var(--150), 0 0 22px var(--red), 0 0 32px var(--red); }
+.drunk-text.sayo-glow-teal,  .jitter-text.sayo-glow-teal  { text-shadow: 0 0 7px var(--150), 0 0 22px var(--teal), 0 0 32px var(--teal); }
+.drunk-text.sayo-glow-blue,  .jitter-text.sayo-glow-blue  { text-shadow: 0 0 7px var(--150), 0 0 22px var(--blue), 0 0 32px var(--blue); }
+.drunk-text.sayo-glow-pink,  .jitter-text.sayo-glow-pink  { text-shadow: 0 0 7px var(--150), 0 0 22px var(--pink), 0 0 32px var(--pink); }
+.drunk-text.sayo-glow-purple,.jitter-text.sayo-glow-purple{ text-shadow: 0 0 7px var(--150), 0 0 22px var(--purple), 0 0 32px var(--purple); }
+/* 催眠螺旋的渐变换成红色系 */
+.hypno-text.sayo-hypno-red { background: linear-gradient(45deg, #b91c1c, #ef4444, #f87171, #fca5a5); background-size: 200% 200%; -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* 东北大花：大红底、粉花、绿叶 */
+.sayo-flower {
+  background: linear-gradient(90deg, #e11d48 0%, #f472b6 18%, #e11d48 30%, #16a34a 42%, #e11d48 55%, #f472b6 70%, #2563eb 82%, #e11d48 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+/* 棋盘格：黑白相间，故意有点歪 */
+.sayo-checker {
+  background: repeating-linear-gradient(87deg, #f5f5f5 0 0.5em, #555 0.5em 1em);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* 内裤图标：像素风，不要糊 */
+.sayo-boxer-icon { width: 32px; height: 32px; image-rendering: pixelated; image-rendering: crisp-edges; vertical-align: middle; }

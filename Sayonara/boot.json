@@ -1,0 +1,80 @@
+{
+  "name": "Sayonara",
+  "version": "0.9.1",
+  "styleFileList": [
+    "sayonara.css"
+  ],
+  "scriptFileList_earlyload": [],
+  "scriptFileList_inject_early": [],
+  "scriptFileList_preload": [],
+  "scriptFileList": [
+    "sayonara.js"
+  ],
+  "tweeFileList": [
+    "sayonara.twee"
+  ],
+  "imgFileList": [],
+  "additionFile": [
+    "readme.md"
+  ],
+  "addonPlugin": [
+    {
+      "modName": "TweeReplacer",
+      "addonName": "TweeReplacerAddon",
+      "modVersion": "1.0.0",
+      "params": [
+        {
+          "passage": "Widgets Events Maths",
+          "findString": "<<sub 2>><</link>><<gpain>><<gtrauma>><<gstress>>\n\t\t\t<br>\n\t\t<</addinlineevent>>",
+          "replace": "<<sub 2>><</link>><<gpain>><<gtrauma>><<gstress>>\n\t\t\t<br>\n\t\t\t<<sayonaraRiverEars>>\n\t\t<</addinlineevent>>"
+        },
+        {
+          "passage": "Widgets Events Maths",
+          "findString": "<<detention 2>><<stress 2>><<set $phase to 1>><</link>><<gstress>><<gdelinquency>>",
+          "replace": "<<detention 2>><<stress 2>><<set $phase to 1>><</link>><<gstress>><<gdelinquency>>\n\t\t\t<<sayonaraRiverQuestion>>"
+        },
+        {
+          "passage": "School Detention",
+          "findString": "<<npc Leighton>><<person1>><<rng>>\n<<set $daily.school.detentionAttended to 1>>\n",
+          "replace": "<<npc Leighton>><<person1>><<rng>>\n<<set $daily.school.detentionAttended to 1>>\n<<sayonaraDetentionCheck>>\n<<if _sayoDet>>\n<<include \"Sayonara Detention Intro\">>\n<<else>>\n"
+        },
+        {
+          "passage": "School Detention",
+          "findString": "<<set $detention to 0>>",
+          "replace": "<<set $detention to 0>>\n<</if>>"
+        },
+        {
+          "passage": "Penis Inspection",
+          "findString": "<<set $outside to 0>><<set $location to \"school\">><<schooleffects>><<effects>>\n",
+          "replace": "<<set $outside to 0>><<set $location to \"school\">><<schooleffects>><<effects>>\n<<sayonaraInspectGate>>\n"
+        },
+        {
+          "passage": "Pussy Inspection",
+          "findString": "<<set $outside to 0>><<set $location to \"school\">><<schooleffects>><<effects>>\n",
+          "replace": "<<set $outside to 0>><<set $location to \"school\">><<schooleffects>><<effects>>\n<<sayonaraInspectGate>>\n"
+        },
+        {
+          "passage": "Breast Inspection",
+          "findString": "<<set $outside to 0>><<set $location to \"school\">><<schooleffects>><<effects>>\n",
+          "replace": "<<set $outside to 0>><<set $location to \"school\">><<schooleffects>><<effects>>\n<<sayonaraInspectGate>>\n"
+        },
+        {
+          "passage": "Sydney Leighton Intervene",
+          "findString": "<<if C.npc.Whitney.init is 1>>\n\t<<set $skulduggerydifficulty to 500>>",
+          "replace": "<<sayonaraSydneyOption>>\n<<if C.npc.Whitney.init is 1>>\n\t<<set $skulduggerydifficulty to 500>>"
+        },
+        {
+          "passage": "Widgets Journal",
+          "findString": "\t\t\t\t</div>\n\t\t\t</details>\n\t\t<</if>>\n\t<</if>>\n\t<br>\n<</widget>>\n\n<<widget \"journalInventory\">>",
+          "replace": "\t\t\t\t</div>\n\t\t\t</details>\n\t\t<</if>>\n\t<</if>>\n\t<<sayonaraBoxerJournal>>\n\t<br>\n<</widget>>\n\n<<widget \"journalInventory\">>"
+        }
+      ]
+    }
+  ],
+  "dependenceInfo": [
+    {
+      "modName": "TweeReplacer",
+      "version": "^1.0.0"
+    }
+  ]
+}

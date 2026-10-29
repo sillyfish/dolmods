@@ -1,0 +1,965 @@
+:: Sayonara Widgets [widget]
+<<widget "sayonaraRiverEars">>
+	<<if $wolfgirl gte 4>>
+		<<link [[低吼|Sayonara River Ears Wolf]]>><<npcincr River dom -1>><<npcincr River love -1>><</link>><<wolfgirl>>
+		<br>
+	<<elseif $fox gte 4>>
+		<<if $transformationParts.fox.tail isnot "disabled">>
+			<<link [[让尾巴吓River一跳|Sayonara River Ears Fox]]>><<npcincr River dom -1>><</link>><<fox>>
+			<br>
+		<</if>>
+	<<elseif $cat gte 4>>
+		<<link [[让耳朵在River手里抖一下|Sayonara River Ears Cat]]>><<npcincr River dom -1>><</link>><<cat>>
+		<br>
+	<</if>>
+<</widget>>
+
+<<widget "sayonaraDetentionCheck">>
+	<<set _sayoDet to false>>
+	<<if $sayonaraDetSkip>>
+		<<unset $sayonaraDetSkip>>
+	<<elseif ($cat gte 4) or ($cow gte 4 and !["hidden", "disabled"].includes($transformationParts.cow.horns)) or ($wolfgirl gte 4) or ($fox gte 4) or ($harpy gte 6 and $transformationParts.bird.wings isnot "disabled")>>
+		<<set _sayoDet to true>>
+	<</if>>
+<</widget>>
+
+<<widget "sayonaraInspectGate">>
+	<<if $sayoInspSkip>>
+		<<unset $sayoInspSkip>>
+	<<elseif currentSkillValue('skulduggery') gte 300>>
+		<<set _sayoInspChance to Math.clamp(Math.round(20 + currentSkillValue('skulduggery') / 10), 20, 100)>>
+		<<set _sayoInspHere to passage()>>
+		礼顿开始指挥大家挪桌子、清场地，教室里乱哄哄的，椅子腿刮着地板吱吱作响。没人注意你。
+		<br><br>
+		你瞥了一眼后门。它虚掩着，离你只有几步远。
+		<br><br>
+		<<link [[趁乱溜出后门|Sayonara Insp Sneak]]>><<set $sayoInspOK to (random(1, 100) lte _sayoInspChance)>><<set $sayoInspFrom to _sayoInspHere>><</link>>
+		<<if !$settings.blindStatsEnabled>> | <span @class="_sayoInspChance gte 100 ? 'green' : 'orange'">诡术 <<print _sayoInspChance>>%</span><</if>>
+		<br>
+		<<link "留在教室" _sayoInspHere>><<set $sayoInspSkip to 1>><</link>>
+		<br>
+		<<exitAll>>
+	<</if>>
+<</widget>>
+
+<<widget "sayonaraSydneyOption">>
+	<<set $skulduggerydifficulty to 400>>
+	<<link [[假装顺从，给悉尼使个眼色|Sayonara Sydney Wink]]>><<set $skulduggerydifficulty to 400>><</link>><<skulduggerydifficulty>>
+	<br>
+<</widget>>
+
+<<widget "sayonaraBoxerJournal">>
+	<<if $sayonara and $sayonara.boxers and $sayonara.boxers.length gt 0>>
+		<br>
+		<<set _sayoBTotal to sayoBoxerList.length>>
+		<<set _sayoBHave to $sayonara.boxers.length>>
+		你见识过礼顿 <span class="gold"><<= _sayoBHave>></span> 种内裤。
+		<<if _sayoBHave gte _sayoBTotal>>你已经集齐了<span class="green">所有</span>款式。<<else>>还有 <span class="gold"><<= _sayoBTotal - _sayoBHave>></span> 种没见过。<</if>>
+		<br><br>
+		<details class="journal">
+			<summary class="journal">礼顿的内裤</summary>
+			<div class="itemCollectible">
+				<<for _sayoB range sayoBoxerList>>
+					<<if $sayonara.boxers.includes(_sayoB.id)>>
+						<<set _tooltip to `<span class="${_sayoB.colour}">${_sayoB.name}</span>（${_sayoB.rarity}）`>>
+						<div class="item" @tooltip="_tooltip">
+							<img class="sayo-boxer-icon" @src="sayoBoxerIcon(_sayoB.id)">
+						</div>
+					<<else>>
+						<div class="item unknown" tooltip="还没见过。">
+							<<mysteryicon>>
+						</div>
+					<</if>>
+				<</for>>
+			</div>
+		</details>
+	<</if>>
+<</widget>>
+
+<<widget "sayonaraRiverQuestion">>
+	<<set _sayoMaths to currentSkillValue('maths')>>
+	<<if _sayoMaths gte 600>>
+		<<set _sayoChance to Math.clamp(Math.round(50 + (_sayoMaths - 600) / 4), 0, 100)>>
+		<br>
+		<<link [[难住River|Sayonara River Question]]>><<set $sayonaraRQ to (random(1, 100) lte _sayoChance)>><</link>>
+		<<if !$settings.blindStatsEnabled>> | <span @class="_sayoChance gte 100 ? 'green' : 'orange'">数学 <<print _sayoChance>>%</span><</if>>
+	<</if>>
+<</widget>>
+
+:: Sayonara River Ears Cat
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+你让那只耳朵在<<his>>手里轻轻地抖了一下。
+<br><br>
+River的手僵住了。
+<br><br>
+那对"发圈"在<<his>>指间又动了动。质感温热柔软，带着一层细密的绒毛。那绝对不是塑料。<<He>>慢慢松开手，盯着自己的手指看了好一会儿，又抬头看看你头顶，你的耳朵正齐刷刷地朝<<him>>转过来。
+<br><br>
+<<He>>张了张嘴，什么也没说出来。<<He>>用力甩了甩手，像是要把那个触感甩掉，又抬手揉了揉眼睛。
+<br><br>
+"……最近批作业批得太晚了。"<<he>>小声嘟囔着，转身继续往前走，步子比平时快了不少，一次也没有回头。
+<br><br>
+<<endevent>>
+<<link [[Next|Maths Lesson]]>><</link>>
+<br>
+
+:: Sayonara River Ears Fox
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<He>>揪着那只耳朵又是一拽。你疼得一激灵，<<if $transformationParts.fox.tail is "hidden">>一直藏得好好的尾巴<<else>>身后那条尾巴<</if>>"嘭"地炸开，每一根毛都竖了起来，足足粗了一倍，结结实实甩在<<his>>手背上。
+<br><br>
+River低下头，看着那团还在<<his>>手边扫来扫去的、毛茸茸的、活的东西。最粗的地方比<<his>>大腿还粗，扇起的微风让<<his>>手背起了一层鸡皮疙瘩。
+<br><br>
+<<He>>松开了手，后退半步，用拇指和食指紧紧按住鼻梁，闭上眼睛，深吸一口气。再睁开的时候，尾巴已经慢慢收了回去，好像什么都没有发生过。
+<br><br>
+"……坐好。"<<his>>声音比平时沉重了一点，"把你的……抱枕，收好。"
+<br><br>
+<<He>>继续往前走。你听见<<him>>在身后小声嘀咕了一句什么，好像是"一定是昨晚没睡好"。
+<br><br>
+<<endevent>>
+<<link [[Next|Maths Lesson]]>><</link>>
+<br>
+
+:: Sayonara River Ears Wolf
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+你慢慢偏过头，抬眼看着<<him>>。喉咙深处滚出一串低沉的咕噜声，那听起来不像是人类能发出来的。
+<br><br>
+前排的同学全都回过头来。
+<br><br>
+River的手顿住了。<<He>>似乎看到一抹绿光自你眼中闪过。<<He>>看着你嘴角露出的那一点尖牙，眉头抽动了一下，不自觉地就缩回了手。
+<br><br>
+<<He>>清了清嗓子。"……上课时间，保持安静。"
+<br><br>
+<<He>>继续往前巡视，经过你座位旁边时，绕得比平时远了一点。
+<br><br>
+<<endevent>>
+<<link [[Next|Maths Lesson]]>><</link>>
+<br>
+
+:: Sayonara River Question
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+你站起来，把答案一步一步写在黑板上。River点点头，准备让你回到座位上去。
+<br><br>
+你站着没动，River用锐利的目光扫视着你。你想起之前看过的一道题，它和River提问的这道非常相似，但要用另一种技巧才能解决，常规方法费时费力。
+<br><br>
+<<if $sayonaraRQ>>
+	你用诚恳且求知的表情问出了那个问题，<span class="green">你很确信课上没有讲过那种技巧。</span>River愣了一下。<<He>>接过粉笔，在黑板上写了几行，皱着眉头沉思。学生们都被这不同寻常的寂静吸引了注意力，就连从不听课的那些学生都抬起头来，注意到了River的窘境。
+	<br><br>
+	后排传来一阵窃笑声，往常这时候River一定要怒目而视，可这会<<he>>被自己的学生难住了，无暇顾及。
+	<br><br>
+	<<link [[继续|Sayonara River Question 2]]>><<pass 2>><<status 5>><<npcincr River love -1>><</link>><<gcool>>
+	<br>
+<<else>>
+	你用诚恳且求知的表情问出了那个问题。River停顿了一秒。
+	<br><br>
+	然后<<he>>的眼睛亮了。
+	<br><br>
+	"好问题。"<<He>>接过粉笔，几乎没有犹豫，流畅地在黑板上写下一整套<span class="red">你没见过的解法</span>，一边写一边讲，讲完还在旁边画了个框。"这个技巧本来是下学期的内容，"<<he>>转向全班，"不过既然有同学已经在自学了，大家都应该跟上。"
+	<br><br>
+	<<He>>把这道题加进了今天的作业里，看起来居然有点高兴。
+	<br><br>
+	全班的目光齐刷刷地扎在你背上。<<lcool>><<status -5>><<npcincr River love 1>>
+	<br><br>
+	<<unset $sayonaraRQ>>
+	<<endevent>>
+	<<link [[Next|Maths Lesson]]>><</link>>
+	<br>
+<</if>>
+
+:: Sayonara River Question 2
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<unset $sayonaraRQ>>
+过了足足两分钟，<<he>>放下粉笔，拍了拍手上的灰。"……这个问题超出了今天的教学范围。"<<He>>清了清嗓子，"坐下吧。"
+<br><br>
+你坐回座位，旁边的同学冲你挤了挤眼睛。你是第一个用这种方式让River难堪的人，一些人向你投去刮目相看的眼神。
+<br><br>
+River转回黑板继续讲课，粉笔敲得比平时用力。
+<<if random(1, 3) is 1>>
+	<br><br>
+	这节课剩下的时间里，River明显心不在焉。讲到一半，粉笔从<<his>>指间滑落，"啪"地摔成两截。<<He>>低头盯着地上那两截粉笔看了好一会儿，才弯腰捡起来，接着往下讲，好像什么都没发生过。
+<</if>>
+<br><br>
+<<endevent>>
+<<link [[Next|Maths Lesson]]>><</link>>
+<br>
+
+:: Sayonara Detention Intro
+你走进礼顿的办公室。<<He>>坐在宽大的办公桌后面，十指交叉，抬眼看你，嘴角挂着那种你最讨厌的笑。
+<br><br>
+"又是你。"
+<br><br>
+你站在门口，身体里有什么东西蠢蠢欲动。
+<br><br>
+<<if $cat gte 4>>
+	<<link [[寻找猫爬架|Sayonara Detention Cat]]>><<set $sayonaraLeave to random(1, 100) lte 40>><<set $sayonaraCatFall to ($bodysize gte 3 ? random(1, 100) lte 70 : $bodysize is 2 ? random(1, 100) lte 30 : false)>><</link>><<cat>>
+	<br>
+<</if>>
+<<if $cow gte 4 and !["hidden", "disabled"].includes($transformationParts.cow.horns)>>
+	<<link [[猛牛冲撞|Sayonara Detention Cow]]>><<set $sayonaraLeave to random(1, 100) lte 40>><</link>><<cow>>
+	<br>
+<</if>>
+<<if $wolfgirl gte 4>>
+	<<link [[召唤你的“手下”|Sayonara Detention Wolf]]>><<set $sayonaraLeave to random(1, 100) lte 40>><<detention 2>><</link>><<wolfgirl>><<gdelinquency>>
+	<br>
+<</if>>
+<<if $fox gte 4>>
+	<<set _sayoFoxChance to Math.clamp(Math.round(30 + currentSkillValue('english') / 10), 30, 100)>>
+	<<link [[狐假虎威|Sayonara Detention Fox]]>><<set $sayonaraLeave to random(1, 100) lte 40>><<set $sayonaraFoxOK to (random(1, 100) lte _sayoFoxChance)>><</link>><<fox>>
+	<<if !$settings.blindStatsEnabled>> | <span @class="_sayoFoxChance gte 100 ? 'green' : 'orange'">英语 <<print _sayoFoxChance>>%</span><</if>>
+	<br>
+<</if>>
+<<if $harpy gte 6 and $transformationParts.bird.wings isnot "disabled">>
+	<<link [[龙卷风摧毁办公室|Sayonara Detention Bird]]>><<set $sayonaraLeave to random(1, 100) lte 40>><</link>><<harpy>>
+	<br>
+<</if>>
+<<link [[老老实实接受留堂|School Detention]]>><<endevent>><<set $sayonaraDetSkip to 1>><</link>>
+<br>
+
+:: Sayonara Detention Cat
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<if $sayonaraLeave>>
+<<unset $sayonaraLeave>>
+<<unset $sayonaraCatFall>>
+礼顿的话还没说完，你后腿一蹬，轻松蹿上了墙边那个高高的文件柜，蹲在柜顶居高临下地看着<<him>>。
+<br><br>
+<<He>>伸手够了两下，够不着，脸色一点点变青。"好，好得很。"<<he>>指着你，手指都在抖，"你给我在上面等着。"
+<br><br>
+<<He>>摔门出去了，脚步声往走廊另一头去了，大概是去找梯子。
+<br><br>
+你看着门板还在嗡嗡震，轻轻跳了下来。礼顿走了，办公室现在归你了。
+<br><br>
+<<set $sayoFox to {acts: 9, key: either("drawer", "coat", "plant", "book"), found: false, locked: false, searched: [], done: [], win: [], msg: "", from: "cat"}>>
+<<link [[开始行动|Sayonara Fox Office]]>><</link>>
+<br>
+<<else>>
+<<unset $sayonaraLeave>>
+<<set $detention to 0>>
+礼顿的话还没说完，你后腿一蹬，轻松蹿上了墙边那个高高的文件柜。
+<br><br>
+<<if $sayonaraCatFall>>
+	柜子不堪重负地晃了晃。
+	<br><br>
+	你和礼顿同时僵住，眼睁睁看着它在你们俩的注视下，慢慢地、慢慢地往前倾——
+	<br><br>
+	轰。
+	<br><br>
+	柜子轰然倒下，文件撒了一地，抽屉里的东西一股脑倒了出来。猫的本能让你在柜子倒地之前就跳了下来，免于摔伤。礼顿张着嘴，看看你，又看看砸在<<his>>脚边的柜子，半天没发出声音。<<crimeUp 20 "destruction">><<crime "destruction">>
+	<br><br>
+	你趁<<him>>还没回过神，轻盈地跳上<<his>>的办公桌，连笔筒都没碰倒，叼起门边衣帽架上的那顶礼帽，往自己头上一扣。帽子怎么都戴不正，压住了一只耳朵，另一只从帽檐边上支棱出来。你索性让它就这么斜着扣在头顶。
+<<else>>
+	柜子稳稳的。你蹲在柜顶，慢条斯理地舔了舔手背，尾巴垂下来，在礼顿头顶挑衅一样地左晃右摆。
+	<br><br>
+	"下来！"<<he>>恼怒地伸长胳膊去够，够不着。踮脚，还是够不着。<<He>>拖来一把椅子，刚踩上去，你就从柜子这头挪到了那头，继续嘲讽地盯着<<him>>。<<He>>挪椅子，你再挪回来。
+	<br><br>
+	等<<he>>气喘吁吁地扶着椅背骂人的时候，你轻轻一跃，无声地落在<<his>>的办公桌上，连笔筒都没碰倒。你看都没看<<him>>一眼，叼起门边衣帽架上的那顶礼帽，往自己头上一扣。帽子怎么都戴不正，压住了一只耳朵，另一只从帽檐边上支棱出来。你索性让它就这么斜着扣在头顶。
+<</if>>
+<<unset $sayonaraCatFall>>
+<br><br>
+你就这么顶着<<his>>的帽子，尾巴高高翘着，踩着猫步，从<<him>>面前大摇大摆地走了出去。
+<br><br>
+<span class="gold">礼顿气得浑身发抖，接下来五天<<he>>都不想在办公室里看见你了。</span>
+<<run sayonaraSulk(5)>>
+<br><br>
+<<endevent>>
+<<link [[Next|Hallways]]>><</link>>
+<br>
+
+<</if>>
+:: Sayonara Detention Cow
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<if $sayonaraLeave>>
+<<unset $sayonaraLeave>>
+你低下头，角尖对准<<him>>，脚在地板上刨了两下。
+<br><br>
+礼顿紧张起来，后退一步，再退一步。你往前一冲——
+<br><br>
+<<He>>没有往柜子上爬。<<He>>发出一声尖叫，转身一把拉开门，以你从没见过的速度冲了出去，连门都没顾上关。走廊里回荡着<<his>>越跑越远的脚步声。
+<br><br>
+你站在空荡荡的办公室中间，甩了甩头，伸手把门轻轻带上。
+<br><br>
+<<set $sayoFox to {acts: 9, key: either("drawer", "coat", "plant", "book"), found: false, locked: false, searched: [], done: [], win: [], msg: "", from: "cow"}>>
+<<link [[开始行动|Sayonara Fox Office]]>><</link>>
+<br>
+<<else>>
+<<unset $sayonaraLeave>>
+<<set $detention to 0>>
+你低下头，角尖对准<<him>>，脚在地板上刨了两下。
+<br><br>
+礼顿紧张起来，后退一步，再退一步，后背抵上了文件柜。你往前一冲——
+<br><br>
+<<He>>发出一声你从没听过的尖叫，手脚并用往柜顶上爬。你在柜子前面刹住，抬头看<<him>>。<<He>>蹲在柜顶，抱着膝盖缩起来，领带歪扭。
+<br><br>
+你像巡视领地一样在屋子里转了转寻找目标，慢悠悠地转身走到<<his>>桌前，低头，"噗"地把桌上那一摞处罚记录扎在角上。一张，两张，三张，串得整整齐齐。
+<br><br>
+然后你哼着歌走出了办公室。走廊上的同学看你大摇大摆地从校长办公室走出来，头顶上还穿着一摞纸，全都瞪大了眼睛。
+<br><br>
+<span class="gold">礼顿在柜顶蹲到了放学。接下来五天，<<he>>都不会再留你的堂了。</span>
+<<run sayonaraSulk(5)>>
+<br><br>
+<<endevent>>
+<<link [[Next|Hallways]]>><</link>>
+<br>
+
+<</if>>
+:: Sayonara Detention Wolf
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<if $sayonaraLeave>>
+<<unset $sayonaraLeave>>
+你没理礼顿，径直走到窗边，推开窗户，冲着外面吹了一声口哨。
+<br><br>
+几秒钟的安静。然后围墙那边冒出一个狗头，两个，五个。一群狗摇着尾巴冲进校园，直奔你所在的窗户底下。
+<br><br>
+你回头看了礼顿一眼，朝门口偏了偏头。第一只狗从门缝里挤了进来，冲<<him>>呲着牙。
+<br><br>
+礼顿夺门而出，狗群狂吠着追了上去。惨叫声和狗叫声一路远去，过了一会儿，你听见远处响起了保安的哨子声。
+<br><br>
+看来<<he>>这回运气不错。不过，办公室现在是你的了。
+<br><br>
+<<set $sayoFox to {acts: 9, key: either("drawer", "coat", "plant", "book"), found: false, locked: false, searched: [], done: [], win: [], msg: "", from: "wolf"}>>
+<<link [[开始行动|Sayonara Fox Office]]>><</link>>
+<br>
+<<else>>
+<<unset $sayonaraLeave>>
+<<set $detention to 0>>
+你没理礼顿，径直走到窗边，推开窗户，冲着外面吹了一声口哨。
+<br><br>
+几秒钟的安静。然后围墙那边冒出一个狗头，两个，五个。一群狗摇着尾巴冲进校园，直奔你所在的窗户底下。
+<br><br>
+你回头看了礼顿一眼，朝门口偏了偏头。
+<br><br>
+<<He>>刚说出一个"你——"字，第一只狗已经从门缝里挤了进来，冲<<him>>呲着牙，目标明确。
+<br><br>
+礼顿夺门而出，狗群狂吠着追了上去。走廊上一路回荡着校长的惨叫和此起彼伏的狗叫，全校的学生闻声都趴到了窗户上。<<He>>慌不择路，一头扎进通往泳池的走廊，撞翻了门口那排毛巾架。一条大浴巾兜头罩下来，<<he>>整个人瞬间失明，双手乱挥，跌跌撞撞往前冲，冲过更衣室门口，冲过正在训练的游泳队，在一片惊呼声里，一脚踏空摔进了泳池。
+<br><br>
+扑通！
+<br><br>
+礼顿挣扎着从水里冒出头来，浴巾还挂在脑袋上。狗群在泳池边站成一排，汪汪叫着，没有一只下水。<<He>>漂在泳池正中央，西装吸饱了水往下坠，只能拼命狗刨。
+<br><br>
+水池边的Mason看了一眼泳池，又看了一眼岸上那排狗，面无表情地说："校长，你不能穿成那样去游泳。"
+<br><br>
+你趴在走廊尽头的窗台上看完了全程，满意地又吹了一声口哨。狗群呼啦一下全散了。
+<br><br>
+<span class="gold">礼顿气急败坏，接下来的一星期<<he>>都不会再留你的堂了。</span>
+<<run sayonaraSulk(7)>>
+<br><br>
+<<endevent>>
+<<link [[Next|Hallways]]>><</link>>
+<br>
+
+<</if>>
+:: Sayonara Detention Fox
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+你缩在椅子上，耳朵耷拉下来，尾巴圈在脚边，低着头一声不吭，眼眶都有点红。
+<br><br>
+<<if $sayonaraFoxOK>>
+	<<unset $sayonaraFoxOK>>
+	<<if $sayonaraLeave>>
+		<<unset $sayonaraLeave>>
+		礼顿看着你这副样子，满意地哼了一声，觉得你已经被吓住了。"在这儿等着。"<<he>>起身出了门，脚步声往走廊另一头去了。
+		<br><br>
+		门一关上，你的耳朵"噌"地竖了起来。
+		<br><br>
+		<<set $sayoFox to {acts: 9, key: either("drawer", "coat", "plant", "book"), found: false, locked: false, searched: [], done: [], win: [], msg: "", from: "fox"}>>
+		<<link [[开始行动|Sayonara Fox Office]]>><</link>>
+		<br>
+	<<else>>
+		<<unset $sayonaraLeave>>
+		<<set $detention to 0>>
+		礼顿看着你这副样子，满意地哼了一声，觉得你已经被吓住了。"在这儿等着。"<<he>>起身去了隔壁。
+		<br><br>
+		门一关上，你的耳朵"噌"地竖了起来。
+		<br><br>
+		你翻开<<his>>桌上的留堂记录本，找到写着你名字的那一页，轻轻撕下来，叠成一只纸鹤，端端正正地摆在<<his>>的皮椅上。想了想，你又蹲下去，把椅子腿上的螺丝拧松了两圈。
+		<br><br>
+		等你走到走廊拐角的时候，身后传来一声落地的闷响。
+		<br><br>
+		<span class="gold">礼顿知道你骗了<<him>>，接下来三天<<he>>都不想再看见你。</span>
+		<<run sayonaraSulk(3)>>
+		<br><br>
+		<<endevent>>
+		<<link [[Next|Hallways]]>><</link>>
+		<br>
+	<</if>>
+<<else>>
+	<<unset $sayonaraFoxOK>>
+	<<unset $sayonaraLeave>>
+	礼顿看着你，冷笑了一声。"省省吧。这招对我没用。"
+	<br><br>
+	<<link [[Next|School Detention]]>><<endevent>><<set $sayonaraDetSkip to 1>><</link>>
+	<br>
+<</if>>
+
+:: Sayonara Fox Widgets [widget]
+<<widget "sayoFoxLine">>
+	<<switch _args[0]>>
+		<<case "coat">><span class="red">礼顿的那件大衣摊在地上，表面全是毛乎乎的<span @class="sayoFx('jitter') + ' sayo-glow-red'">爪痕</span>。</span>
+		<<case "ink">><span class="red">墨水瓶翻倒在地板上，一大摊刺眼的<span @class="sayoFx('hypno') + ' sayo-hypno-red'">红色</span>在地毯上晕开。</span>
+		<<case "pen">><span class="orange">各式各样的笔在地面上滚得到处都是。</span>
+		<<case "photo">><span class="purple">礼顿的照片被钉在木板上，一只眼被涂了一个大大的黑眼圈，两颊还被画了两道夸张的宽面条泪。</span>
+		<<case "cup">><span class="teal">礼顿的茶杯里好像有什么不对劲的东西。</span>
+		<<case "turtle">><span class="green">礼顿的办公室里现在爬满了<span @class="sayoFx('drunk') + ' sayo-glow-green'">王八</span>。清理掉它们可能要耗费几个月，然后在几天后的某个角落再发现一只。可惜纸乌龟不能繁殖。</span>
+		<<case "board">><span class="purple">白板上用耐久性马克笔写着大大的"<span @class="sayoFx('hypno')">礼顿承诺会遵守校规</span> >:("。</span>
+		<<case "plate">><span class="purple">桌前摆着"<span @class="sayoFx('drunk') + ' sayo-glow-gold'">笑</span>（这个字很明显是贴上去的）长"的立牌。</span>
+		<<case "files">><span class="orange">柜子里原本整整齐齐的档案袋现在混作一团，要重新整理好得费不少时间。</span>
+		<<case "pass">><span class="teal">几张盖好章的"<span @class="sayoFx('jitter') + ' sayo-glow-teal'">留堂超级月卡</span>"整整齐齐地摞在发件篮里，等着明天发出去。</span>
+		<<case "radio">><span class="teal">广播的开关还亮着红灯，远处隐约传来全校学生的骚动声。</span>
+		<<case "trophy">><span class="red">礼顿的奖杯躺在地上，摔掉了一只耳朵。</span>
+		<<case "smashink">><span class="red">墨水瓶在门边摔得粉碎，红色溅了半面墙。</span>
+	<</switch>>
+<</widget>>
+
+<<widget "sayoFoxRoom">>
+	<<set _sayoN to $sayoFox.done.length>>
+	<<if _sayoN is 0>><span class="green">办公室一尘不染。</span><<elseif _sayoN lte 2>><span class="teal">办公室有些微脏。</span><<elseif _sayoN lte 4>><span class="gold">办公室一片狼藉。</span><<elseif _sayoN lte 6>><span class="orange">小偷来了都无处下脚。</span><<else>><span class="rainbow">这里是地狱吗？</span><</if>>
+	<br><br>
+	<<for _sayoP range $sayoFox.done>>
+		<i><<sayoFoxLine _sayoP>></i>
+		<br>
+	<</for>>
+	<<if $sayoFox.locked or $sayoFox.found>>
+		<br>
+		<<if $sayoFox.locked>>
+			<span class="lblue"><i>门已经从里面反锁了。</i></span>
+		<<else>>
+			<span class="lblue"><i>你手里攥着办公室的备用钥匙。</i></span>
+		<</if>>
+		<br>
+	<</if>>
+<</widget>>
+
+:: Sayonara Fox Office
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<if true>>
+	<<sayoFoxRoom>>
+	<br>
+	<span class="black">你估计礼顿大概还有 <<print $sayoFox.acts * 20>> 秒回来。</span>
+	<br><br>
+
+	<<if !$sayoFox.found>>
+		<<if currentSkillValue('skulduggery') gte 500>>
+			<span class="green">
+			<<switch $sayoFox.key>>
+				<<case "drawer">>你注意到最底下那层抽屉的把手比别的都亮，像是常被拉开。
+				<<case "coat">>你注意到衣帽架上那件大衣的口袋微微往下坠着。
+				<<case "plant">>你注意到窗台上那盆绿萝的土有被翻动过的痕迹。
+				<<case "book">>你注意到书架上有一本厚书的书脊比别的都旧。
+			<</switch>>
+			</span>
+			<br><br>
+		<</if>>
+		<span class="gold">找钥匙</span>
+		<br>
+		<<if !$sayoFox.searched.includes("drawer")>>
+			<<link [[翻抽屉|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.searched.push("drawer")>><<if $sayoFox.key is "drawer">><<set $sayoFox.found to true>><<set $sayoFox.msg to "你拉开最底下那层抽屉，在一堆回形针和旧便签底下，摸到一把冰凉的小钥匙。">><<else>><<set $sayoFox.msg to "你把抽屉翻了个底朝天，除了一堆回形针什么都没有。">><</if>><</link>>
+			<br>
+		<</if>>
+		<<if !$sayoFox.searched.includes("coat")>>
+			<<link [[摸大衣口袋|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.searched.push("coat")>><<if $sayoFox.key is "coat">><<set $sayoFox.found to true>><<set $sayoFox.msg to "你把手伸进大衣口袋，指尖碰到了一串钥匙。其中一把上面贴着\"办公室备用\"的标签。">><<else>><<set $sayoFox.msg to "大衣口袋里只有一张揉皱的收据和半颗薄荷糖。">><</if>><</link>>
+			<br>
+		<</if>>
+		<<if !$sayoFox.searched.includes("plant")>>
+			<<link [[看看花盆底下|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.searched.push("plant")>><<if $sayoFox.key is "plant">><<set $sayoFox.found to true>><<set $sayoFox.msg to "你把绿萝连盆端起来，一把小钥匙\"叮\"地掉在窗台上。">><<else>><<set $sayoFox.msg to "花盆底下只有一圈水渍。">><</if>><</link>>
+			<br>
+		<</if>>
+		<<if !$sayoFox.searched.includes("book")>>
+			<<link [[翻那本厚书|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.searched.push("book")>><<if $sayoFox.key is "book">><<set $sayoFox.found to true>><<set $sayoFox.msg to "你抽出那本厚书，书页中间被挖出了一个小方槽，里面躺着一把钥匙。">><<else>><<set $sayoFox.msg to "你抖了抖那本书，只抖出来一片干枯的书签。">><</if>><</link>>
+			<br>
+		<</if>>
+		<br>
+	<<elseif !$sayoFox.locked>>
+		<<link [[反锁门|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<set $sayoFox.locked to true>><<set $sayoFox.msg to "你把钥匙插进锁孔，轻轻一拧。咔哒。">><</link>>
+		<br><br>
+	<</if>>
+
+	<span class="gold">捣乱</span>
+	<br>
+	<<if !$sayoFox.done.includes("coat")>>
+		<<link [[抓大衣|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.done.push("coat")>><<set $sayoFox.last to "coat">><<stress -6>><<detention 1>><<set $sayoFox.msg to "你把礼顿挂在衣帽架上的大衣扯下来，手摁在上面，从领口一路抓到下摆。">><</link>><<gdelinquency>>
+		<br>
+	<</if>>
+	<<if !$sayoFox.done.includes("ink")>>
+		<<link [[打翻墨水瓶|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.done.push("ink")>><<set $sayoFox.last to "ink">><<stress -6>><<detention 1>><<set $sayoFox.msg to "你拧开那瓶批改用的红墨水，手一扬就把它扔在了地上。">><</link>><<gdelinquency>>
+		<br>
+	<</if>>
+	<<if !$sayoFox.done.includes("pen")>>
+		<<link [[拿礼顿的笔当飞镖|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.done.push("pen")>><<set $sayoFox.last to "pen">><<stress -6>><<detention 1>><<set $sayoFox.msg to "你从笔筒里抽出校长的笔，它们大部分都蛮沉的，看起来很有质感。你瞄准白板，一根一根地把笔投掷过去。">><</link>><<gdelinquency>>
+		<br>
+	<</if>>
+	<<if !$sayoFox.done.includes("photo")>>
+		<<link [[毁坏礼顿的照片|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.done.push("photo")>><<set $sayoFox.last to "photo">><<trauma -6>><<detention 1>><<set $sayoFox.msg to "你在透明展柜里发现了一个相框，中间是微笑的礼顿。你把相框拆掉，捡起笔进行你的艺术加工。完事之后，你满意地把照片钉在了墙上。">><</link>><<gdelinquency>>
+		<br>
+	<</if>>
+	<<if !$sayoFox.done.includes("turtle")>>
+		<<link [[送礼顿一片茂盛的潮汐|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.done.push("turtle")>><<set $sayoFox.last to "turtle">><<trauma -6>><<detention 1>><<set $sayoFox.msg to "你在一叠便签纸上的每一张快速涂涂画画，画了一堆乌龟，然后分散着贴在了屋子各处，有些藏得极好。">><</link>><<gdelinquency>>
+		<br>
+	<</if>>
+	<<if !$sayoFox.done.includes("cup")>>
+		<<link [[给礼顿的饮品加点料|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.done.push("cup")>><<set $sayoFox.last to "cup">><<control 10>><<detention 1>><<set $sayoFox.msg to "你凑近礼顿桌面上的茶杯，捏住把手端起来。它沉甸甸的。你往里面吐了一大口口水。">><</link>><<gdelinquency>>
+		<br>
+	<</if>>
+	<<if !$sayoFox.done.includes("board")>>
+		<<link [[在白板上留言|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.done.push("board")>><<set $sayoFox.last to "board">><<trauma -6>><<detention 1>><<set $sayoFox.msg to "你拔开耐久性马克笔的笔帽，踮起脚，在白板正中间写下一行大字，又在后面画了个生气的小脸。">><</link>><<gdelinquency>>
+		<br>
+	<</if>>
+	<<if !$sayoFox.done.includes("plate")>>
+		<<link [[改桌牌|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.done.push("plate")>><<set $sayoFox.last to "plate">><<stress -6>><<detention 1>><<set $sayoFox.msg to "你撕下一张粘性便签，写了个\"笑\"字，端端正正地覆盖在桌牌原本的\"校\"字上。">><</link>><<gdelinquency>>
+		<br>
+	<</if>>
+	<<if !$sayoFox.done.includes("files")>>
+		<<link [[弄乱档案|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.done.push("files")>><<set $sayoFox.last to "files">><<stress -6>><<detention 1>><<set $sayoFox.msg to "你拉开档案柜，把一袋袋档案抽出来打开，把文件都打乱、再胡乱塞回去。">><</link>><<gdelinquency>>
+		<br>
+	<</if>>
+	<<if !$sayoFox.done.includes("pass")>>
+		<<link [[发放留堂月卡|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.done.push("pass")>><<set $sayoFox.last to "pass">><<control 10>><<detention 1>><<set $sayoFox.msg to "你从抽屉里翻出一沓空白的留堂通知单和校长印章。想了想，你填上几个最讨厌的同学的名字，日期从明天一直写到下个月底，啪、啪、啪盖上章。">><</link>><<gdelinquency>>
+		<br>
+	<</if>>
+	<<if !$sayoFox.done.includes("radio")>>
+		<<link [[打开广播|Sayonara Fox Act]]>><<set $sayoFox.acts-->><<run $sayoFox.done.push("radio")>><<set $sayoFox.last to "radio">><<control 10>><<detention 1>><<if Time.weekDay is 6>><<set $sayoFox.msg to "你按下广播的开关，清了清嗓子，压低声音模仿礼顿的腔调：\"全体同学请注意，由于课程进度调整，明天周六照常上课。\"">><<else>><<set $sayoFox.msg to "你按下广播的开关，清了清嗓子，压低声音模仿礼顿的腔调：\"全体同学请注意，由于设备检修，明天全校停课一天。\"">><</if>><</link>><<gdelinquency>>
+		<br>
+	<</if>>
+	<br>
+	<<getouticon>><<link [[离开办公室|Sayonara Fox Leave]]>><</link>>
+	<br>
+<</if>>
+
+:: Sayonara Fox Leave
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<set _sayoN to $sayoFox.done.length>>
+<<if $sayoFox.locked>>
+	你拧开门锁，探出头看了看。走廊上空荡荡的。你轻轻把门带上，顺手又把它从外面锁好，把钥匙丢进了门口的花盆里。
+	<br><br>
+	等礼顿回来，得先找半天钥匙才进得去。
+<<elseif _sayoN is 0>>
+	你看了看空荡荡的办公室，决定见好就收。你轻手轻脚地拉开门，溜了出去。
+	<br><br>
+	礼顿回来的时候，只会看见一把空椅子。
+<<elseif _sayoN lte 3>>
+	你满意地看了一眼自己的成果，拉开门溜了出去。
+<<else>>
+	你站在门口，回头欣赏了一下这间被你彻底改造过的办公室，然后哼着歌溜了出去。
+<</if>>
+<br><br>
+<<if _sayoN is 0>>
+	<<set _sayoDays to 1>>
+	<span class="gold">礼顿回来扑了个空，接下来一天<<he>>都不想再看见你。</span>
+<<else>>
+	<<set _sayoDays to 2 + Math.floor(_sayoN / 2) + ($sayoFox.locked ? 1 : 0)>>
+	<span class="gold">礼顿回来看到满屋子烂摊子，人却早就没影了。接下来_sayoDays天<<he>>都不想再看见你。</span>
+<</if>>
+<<run sayonaraSulk(_sayoDays)>>
+<<set $detention to 0>>
+<<unset $sayoFox>>
+<br><br>
+<<endevent>>
+<<link [[Next|Hallways]]>><</link>>
+<br>
+
+:: Sayonara Fox Act
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<print $sayoFox.msg>>
+<<switch $sayoFox.last>>
+	<<case "coat" "ink" "pen" "plate" "files" "smashink" "trophy">><<lstress>>
+	<<case "photo" "turtle" "board" "finger">><<ltrauma>>
+	<<case "cup" "pass" "radio" "desk">><<gcontrol>>
+<</switch>>
+<<unset $sayoFox.last>>
+<br><br>
+<<set _sayoNext to $sayoFox.next || "Sayonara Fox Office">>
+<<if _sayoNext is "Sayonara Fox Office" and $sayoFox.acts lte 0>><<set _sayoNext to "Sayonara Fox Return">><</if>>
+<<link "继续" _sayoNext>><<set $sayoFox.msg to "">><<unset $sayoFox.next>><</link>>
+<br>
+
+:: Sayonara Fox Return
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<set $sayoFox.msg to "">>
+<<switch $sayoFox.from>>
+	<<case "wolf">>走廊里传来了脚步声，还有保安的说话声。礼顿回来了，听起来身上一根狗毛都没沾到。
+	<<case "cow">>走廊里传来了脚步声，走得小心翼翼，在拐角处停了好一会儿才继续往这边来。
+	<<case "cat">>走廊里传来了脚步声，还有梯子磕在墙上的哐当声。
+	<<case "bird">>走廊里传来了脚步声。礼顿回来了，一边走一边往外呸羽毛。
+	<<default>>走廊里传来了脚步声。
+<</switch>>
+<br><br>
+<<if $sayoFox.locked>>
+	门把手被拧了一下，没拧开。又拧了一下。
+	<br><br>
+	"……开门！"礼顿愤怒的声音隔着门板闷闷地传进来，紧接着是一阵砸门声，"我数到三！"
+	<br><br>
+	<<if !$sayoFox.done.includes("ink")>>
+		<<link [[把墨水瓶狠狠摔在门上|Sayonara Fox Act]]>><<set $sayoFox.next to "Sayonara Fox Window">><<run $sayoFox.done.push("smashink")>><<set $sayoFox.last to "smashink">><<stress -6>><<detention 1>><<set $sayoFox.msg to "你抄起墨水瓶，冲着门板砸了过去。啪！门外的吼声停了半秒，然后高了一个八度。">><</link>><<gdelinquency>>
+	<<else>>
+		<<link [[把桌上的奖杯推到地上|Sayonara Fox Act]]>><<set $sayoFox.next to "Sayonara Fox Window">><<run $sayoFox.done.push("trophy")>><<set $sayoFox.last to "trophy">><<stress -6>><<detention 1>><<set $sayoFox.msg to "你用一根手指把桌角那座奖杯推了下去。哐当！门外的吼声停了半秒，然后高了一个八度。">><</link>><<gdelinquency>>
+	<</if>>
+	<br>
+	<<link [[假装没听见|Sayonara Fox Act]]>><<set $sayoFox.next to "Sayonara Fox Window">><<set $sayoFox.msg to "你掏了掏耳朵，假装什么都没听见。砸门声越来越响，然后突然停了。">><</link>>
+	<br>
+<<else>>
+	门被一把推开。礼顿站在门口，看着一屋子的狼藉，脸一下子涨成了猪肝色。
+	<br><br>
+	<<sayoFoxRoom>>
+	<br>
+	<<He>>张开嘴，刚要吼，你一猫腰，从<<his>>腋下钻了过去。等<<he>>转过身，走廊里只剩你的尾巴尖一晃，就不见了。
+	<br><br>
+	<<set _sayoDays to 2 + Math.floor($sayoFox.done.length / 2)>>
+	<span class="gold">礼顿对着一屋子烂摊子气了一整个下午，接下来_sayoDays天<<he>>都不想再看见你。</span>
+	<<run sayonaraSulk(_sayoDays)>>
+	<<set $detention to 0>>
+	<<unset $sayoFox>>
+	<br><br>
+	<<endevent>>
+	<<link [[Next|Hallways]]>><</link>>
+	<br>
+<</if>>
+
+:: Sayonara Fox Window
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<if $sayoFox.win.length is 0>>
+	脚步声渐渐远去。过了一会儿，窗户那边传来动静。礼顿绕到了楼外，两只手扒着窗框，脸几乎贴在玻璃上，嘴一张一合，听不清在骂什么。
+	<br><br>
+<</if>>
+<<sayoFoxRoom>>
+<<if $sayoFox.win.includes("desk")>><span class="lblue"><i>你翘着脚坐在<<his>>的办公桌上，鞋底正对着窗户。</i></span><br><</if>>
+<br>
+<<if !$sayoFox.win.includes("desk")>>
+	<<link [[翘着脚坐上办公桌|Sayonara Fox Act]]>><<set $sayoFox.next to "Sayonara Fox Window">><<run $sayoFox.win.push("desk")>><<set $sayoFox.last to "desk">><<control 10>><<set $sayoFox.msg to "你当着礼顿的面，一屁股坐上那张办公桌，把两只脚架在了一摞文件上。窗外那张脸扭曲了一下。">><</link>>
+	<br>
+<</if>>
+<<if !$sayoFox.win.includes("finger")>>
+	<<link [[冲玻璃竖中指|Sayonara Fox Act]]>><<set $sayoFox.next to "Sayonara Fox Window">><<run $sayoFox.win.push("finger")>><<set $sayoFox.last to "finger">><<trauma -6>><<detention 1>><<set $sayoFox.msg to "你冲着窗户慢慢竖起中指，还歪着头冲礼顿笑了笑。玻璃上蒙了一层气急败坏哈出来的白雾。">><</link>><<gdelinquency>>
+	<br>
+<</if>>
+<<if !$sayoFox.win.includes("phone")>>
+	<<link [[接电话|Sayonara Fox Phone]]>><<run $sayoFox.win.push("phone")>><</link>>
+	<span class="black">（桌上的电话响了）</span>
+	<br>
+<</if>>
+<<link [[开门离开|Sayonara Fox End]]>><</link>>
+<br>
+
+:: Sayonara Fox Phone
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+你拿起听筒，用手微微捂住话筒，免得窗外的怒骂声漏进去。
+<br><br>
+"校长办公室，我是礼顿的助手。"
+<br><br>
+电话那头的人迟疑地顿了顿："啊……你好？我是来确认下周家长会安排的，通知已经印好了。"
+<br><br>
+"取消了。"
+<br><br>
+"取消？可是这是校长亲自——"
+<br><br>
+"这就是礼顿的意思，"你说，"还需要你质疑吗？另外，以后所有家长会都改到周日早上六点开，礼顿说这样显得有诚意。"
+<br><br>
+你挂断电话。窗外礼顿的脸已经从红变成了紫。
+<br><br>
+<<link [[Next|Sayonara Fox Window]]>><</link>>
+<br>
+
+:: Sayonara Fox End
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+你跳下桌子，伸了个懒腰，慢悠悠地走到门边，当着窗外那张脸，"咔哒"一声拧开了门锁。
+<br><br>
+礼顿反应过来，扒着窗框往下一跳，朝楼门口狂奔。可从窗户底下绕回办公室门口，要绕整整一栋楼。
+<br><br>
+等<<he>>气喘吁吁冲进走廊的时候，你早就没影了。
+<br><br>
+<<set _sayoDays to Math.min(10, 3 + $sayoFox.done.length)>>
+<span class="gold">礼顿在被自己反锁的办公室外面站了半天，接下来_sayoDays天<<he>>都不想再看见你。</span>
+<<run sayonaraSulk(_sayoDays)>>
+<<set $detention to 0>>
+<<unset $sayoFox>>
+<br><br>
+<<endevent>>
+<<link [[Next|Hallways]]>><</link>>
+<br>
+
+:: Sayonara Detention Bird
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<if $sayonaraLeave>>
+<<unset $sayonaraLeave>>
+礼顿开始训话，越说越大声。<<He>>吼到一半凑近了你的脸，你趁机"唰"地张开了翅膀。
+<br><br>
+翅膀展开，狭小的办公室光线都暗了几分。你只扇了一下，桌上的文件就全飞了起来。
+<br><br>
+礼顿抱着头，被纸片和羽毛糊了一脸，跌跌撞撞地摸到门把手，夺门而逃。
+<br><br>
+你收起翅膀。最后一根羽毛慢悠悠地落在了<<his>>的椅子上。
+<br><br>
+<<set $sayoFox to {acts: 9, key: either("drawer", "coat", "plant", "book"), found: false, locked: false, searched: [], done: [], win: [], msg: "", from: "bird"}>>
+<<link [[开始行动|Sayonara Fox Office]]>><</link>>
+<br>
+<<else>>
+<<unset $sayonaraLeave>>
+<<set $detention to 0>>
+礼顿开始训话，越说越大声。<<He>>吼到一半凑近了你的脸，你趁机"唰"地张开了翅膀。
+<br><br>
+翅膀展开，狭小的办公室光线都暗了几分。你开始猛烈地扇动它们。比起平时起飞的力气，这已经算轻柔的了。
+<br><br>
+桌上的文件像暴风雪一样卷起来，满屋子乱飞。<<His>>精心梳好的发型被吹成了鸡窝，领带甩到了肩膀后面。<<He>>抬起胳膊挡脸，嘴巴里进了一根羽毛，也可能是两根。
+<br><br>
+等风停下来，<<he>>站在一地狼藉中间，头发竖着，还在用力地吐着口水。羽毛的味道怪异极了。窗户开着，窗帘还在晃，你早已不见踪影。
+<br><br>
+<<He>>捏起那根羽毛看了半天，什么都没说出来。
+<br><br>
+<span class="gold">礼顿收拾了一下午文件，接下来三天<<he>>都不想再看见你。</span>
+<<run sayonaraSulk(3)>>
+<br><br>
+<<endevent>>
+<<link [[Next|Hallways]]>><</link>>
+<br>
+<</if>>
+
+:: Sayonara Insp Sneak
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<if $sayoInspOK>>
+	<<unset $sayoInspOK>>
+	你压低身子，贴着墙根挪到后门边，趁礼顿转身的一瞬间，闪进了走廊。门在你身后无声地合上，教室里的声音一下子变得很远。
+	<br><br>
+	走廊上空无一人。你有一点时间。
+	<br><br>
+	<<link [[拉响火警|Sayonara Insp Fire]]>><</link>>
+	<br>
+	<<link [[去家政教室找点油|Sayonara Insp Oil]]>><</link>>
+	<br>
+	<<if $schoolevent gte 2>>
+		<<link [[去校长办公室拿回被没收的东西|Sayonara Insp Retrieve]]>><</link>>
+		<br>
+	<</if>>
+	<<link [[把外套蒙在头上冲回去|Sayonara Insp Cow]]>><</link>><<if $cow gte 4 and !["hidden", "disabled"].includes($transformationParts.cow.horns)>><<cow>><</if>>
+	<br>
+<<else>>
+	<<unset $sayoInspOK>>
+	你刚挪到门边，礼顿的声音就追了过来。
+	<br><br>
+	"你要去哪儿？"<<he>>头也不回，"坐回去。"
+	<br><br>
+	<<link [[Next|$sayoInspFrom]]>><<set $sayoInspSkip to 1>><</link>>
+	<br>
+<</if>>
+
+:: Sayonara Insp Fire
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<unset $sayoInspFrom>>
+走廊拐角的墙上嵌着一个红色的火警按钮，外面罩着一层薄薄的塑料盖。你掀开盖子，按了下去。
+<br><br>
+刺耳的铃声瞬间响彻整栋教学楼。
+<br><br>
+教室门被一把推开，学生们像潮水一样涌了出来。礼顿被人流挤到了门口，徒劳地喊着"站住""不要乱"，可根本没人听<<him>>的。按照规定，全校师生必须立刻撤离到操场上。
+<br><br>
+你混进疏散的人群里，跟着大家走到操场。等消防检查结束、所有人重新回到教室时，站在讲台上的已经是Sirris了。礼顿的"计划"，就这么不了了之。
+<br><br>
+你听到后排有人小声嘀咕："……谁拉的火警？我得请那个人吃午饭。"
+<<gcool>><<status 5>><<ltrauma>><<trauma -6>>
+<br><br>
+<<endevent>>
+<<link [[Next|Science Lesson]]>><<pass 15>><</link>>
+<br>
+
+:: Sayonara Insp Oil
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<unset $sayoInspFrom>>
+家政教室的门没锁。你从River的储物柜里翻出一大瓶食用油，抱着溜回科学教室门口，在门外的地板上均匀地、慷慨地倒了一大片。地上一层透明的油，第一眼很难发现。从你这个角度看过去，油面映着走廊的灯光，闪闪发亮。
+<br><br>
+然后你探出身子用力拍了三下门，转身就躲到了对面那排储物柜后面。
+<br><br>
+门开了。礼顿皱着眉头探出身子："谁——"
+<br><br>
+<<He>>迈出了第一步。
+<br><br>
+那一瞬间，礼顿的两只脚像是有了各自的想法，往两个不同的方向一溜，徒留跟不上速度的屁股重重落在地上。摔倒时<<he>>下意识想扶住手边半开的门，但门躲开了，嘭的一声撞在墙上，又因为反作用力弹回来把<<him>>夹在门口。<<His>>手里那台相机早就因为没抓住砸在<<his>>的胯骨上，疼得<<him>>龇牙咧嘴。
+<br><br>
+礼顿四仰八叉地躺在走廊上，一动不动地盯着天花板。
+<br><br>
+<<link [[躲在柜子后面别动|Sayonara Insp Oil Hide]]>><</link>>
+<br>
+<<link [[跳出来say hi|Sayonara Insp Oil Mock]]>><<detention 6>><</link>><<gggdelinquency>>
+<br>
+
+:: Sayonara Insp Oil Hide
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+你捂着嘴缩在柜子后面，大气都不敢出。
+<br><br>
+礼顿躺了好一会儿，才扶着腰、骂骂咧咧地爬起来。<<He>>想站稳，脚下一滑又跪了下去，几乎像是朝着你的方向行了个屈膝礼。礼顿放弃了站立，慢慢蹲在地上一点一点地挪出那片油，一瘸一拐地往医务室的方向去了。
+<br><br>
+你等脚步声彻底消失，才从柜子后面钻出来，从后门若无其事地溜回了座位。同学们面面相觑，没人知道今天的检查还要不要继续。
+<br><br>
+过了一会儿，Sirris回来了，看见门口那片油，愣了一下，默默地去拿了拖把。
+<<lstress>><<stress -6>><<ltrauma>><<trauma -6>>
+<br><br>
+<<endevent>>
+<<link [[Next|Science Lesson]]>><<pass 10>><</link>>
+<br>
+
+:: Sayonara Insp Oil Mock
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+你从柜子后面探出身子，慢悠悠地走到油面边缘，低头看着地上的礼顿。
+<br><br>
+"撒油拿拉，校长先生。"
+<br><br>
+礼顿的脸一下子涨得通红。<<He>>一骨碌想爬起来扑向你，结果在油上又滑了一跤，这次是脸朝下。教室门口挤满了探出来看热闹的脑袋，不知道是谁先笑出了声，然后整条走廊都笑翻了。
+<br><br>
+等<<he>>好不容易扶着门框站起来，你早就跑没影了。
+<<lltrauma>><<trauma -12>><<gcool>><<status 5>>
+<br><br>
+<<endevent>>
+<<link [[Next|Science Lesson]]>><<pass 10>><</link>>
+<br>
+
+:: Sayonara Insp Retrieve
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<unset $sayoInspFrom>>
+礼顿正在科学教室里，校长办公室这会儿是空的。
+<br><br>
+门锁难不倒你。你在<<his>>办公桌最底层的抽屉里找到了一个鼓鼓囊囊的袋子，里面装着之前几次"检查"时被<<he>>没收的东西，每一样上面都贴着写了名字的小标签。
+<br><br>
+你把袋子抱出来，按着标签上的名字，一件一件塞进了同学们的储物柜里。最后一张标签上写的是你自己的名字。
+<br><br>
+你把空袋子叠好，塞回抽屉原处。等礼顿哪天想打开它的时候，会发现里面什么也没有。
+<br><br>
+你回到科学教室门口时，正好赶上礼顿离开。
+<<gcontrol>><<control 10>><<ltrauma>><<trauma -6>>
+<br><br>
+<<endevent>>
+<<link [[Next|Science Lesson]]>><<pass 20>><</link>>
+<br>
+
+:: Sayonara Insp Cow
+<<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
+<<unset $sayoInspFrom>>
+<<if $cow gte 4 and !["hidden", "disabled"].includes($transformationParts.cow.horns)>>
+	你脱下外套，往头上一罩，只让两只角从衣领里戳出来。然后你后退几步，低下头，猛地一脚踹开了科学教室的门。
+	<br><br>
+	"哞——————"
+	<br><br>
+	一个看不清脸、长着角的东西咆哮着冲进教室。前排的同学尖叫着往两边闪，礼顿转过身，看见那对角直直地朝<<him>>戳过来，脸刷地白了。
+	<br><br>
+	<<He>>惨叫一声，连滚带爬地翻过讲台，撞开前门，头也不回地逃了出去。走廊里传来<<his>>越跑越远的脚步声，中间还夹杂着一声撞上什么东西的闷响和痛呼。
+	<br><br>
+	你在讲台前刹住，甩了甩头。整间教室鸦雀无声。然后你转身，顶着外套从后门溜了出去，在走廊拐角把外套穿回身上，若无其事地回到了座位。
+<<else>>
+	你脱下外套，往头上一罩，两只袖子垂在脸前晃来晃去。你深吸一口气，猛地一脚踹开了科学教室的门，张牙舞爪地冲了进去，嘴里发出一串连你自己都没想到能发出来的怪叫。
+	<br><br>
+	前排的同学尖叫着四散开来。礼顿被吓得往后一跳，后背撞上黑板，粉笔槽里的粉笔哗啦啦掉了一地。"什、什么东西——"
+	<br><br>
+	你挥舞着两只软塌塌的空袖子朝<<him>>扑过去。礼顿绕着讲台逃了一圈，被自己挪开的桌子绊了一跤，最后手脚并用地爬出了前门，一边爬一边喊"保安"。
+	<br><br>
+	你在讲台前停下来，喘了口气。整间教室鸦雀无声。然后你转身从后门溜了出去，在走廊拐角把外套穿回身上，若无其事地回到了座位。
+<</if>>
+<br><br>
+同学们交头接耳地讨论着刚才那头"怪物"，没有一个人认出是你。
+<<lstress>><<stress -6>><<ltrauma>><<trauma -6>><<detention 2>><<gdelinquency>>
+<br><br>
+<<endevent>>
+<<link [[Next|Science Lesson]]>><<pass 10>><</link>>
+<br>
+
+:: Sayonara Sydney Wink
+<<schooleffects>><<effects>><<run statusCheck("Sydney")>>
+<<skulduggerycheck>>
+<<if $speech_attitude is "meek">>
+	你垂下头，肩膀一塌，摆出顺从的样子。"悉尼是我的好朋友，"你小声说，"我们能一起受罚吗？"
+	<br><br>
+	礼顿盯着你，显然对你的自愿加入十分满意。
+<<elseif $speech_attitude is "bratty">>
+	你抱着胳膊，迎着礼顿的目光往前一站，把悉尼挡在身后。"有什么冲着我来。只欺负<<him>>一个算什么本事？"
+	<br><br>
+	礼顿眯起眼睛盯了你一会儿，嘴角慢慢扬了起来。"勇气可嘉。那就两个一起。"
+<<else>>
+	你往前站了半步，站到悉尼身边。"我不知道<<he>>做错了什么，"你说，"但作为朋友，我也该担一份。"
+	<br><br>
+	礼顿盯着你，显然对你的自愿加入十分满意。
+<</if>>
+你趁<<nnpc_he "Leighton">>转身指挥悉尼的空当，抬眼看向悉尼，飞快地眨了一下右眼。
+<br><br>
+<<if _sydneyStatus.includes("corrupt")>>
+	悉尼眉毛一挑，瞬间明白了。<<He>>慢吞吞地往桌边挪，一边挪一边故意叹气，叹得礼顿的注意力全落在<<him>>身上。
+<<else>>
+	悉尼愣了一下，眼睛里还含着泪，显然没明白你要干什么。但<<he>>还是乖乖地照做了，一步一步、慢吞吞地往桌边挪，挪得礼顿都不耐烦了。
+<</if>>
+<br><br>
+<<if $skulduggerysuccess is 1>>
+	你无声无息地绕到礼顿身后。<<nnpc_He "Leighton">>正背对着你，盯着悉尼，全神贯注。
+	<br><br>
+	你伸出两只手，捏住<<nnpc_his "Leighton">>的腰带，深吸一口气——
+	<br><br>
+	<<link [[往下一拽|Sayonara Sydney Pants]]>><<run sayoBoxerRoll()>><</link>>
+	<br>
+<<else>>
+	你刚绕到礼顿身后，<<nnpc_he "Leighton">>就像后脑勺长了眼睛一样转过身来。"你在干什么？"
+	<br><br>
+	来不及了。你一把抓住悉尼的手腕："跑！"
+	<br><br>
+	<<link [[Next|Sayonara Sydney Run]]>><<detention 6>><</link>><<ggdelinquency>>
+	<br>
+<</if>>
+
+:: Sayonara Sydney Pants
+<<schooleffects>><<effects>><<run statusCheck("Sydney")>>
+<<set _sayoBx to sayoBoxer($sayonara.boxerLast)>>
+刺啦——
+<br><br>
+礼顿的裤子落到了脚踝上。
+<br><br>
+图书馆里安静了整整一秒。所有人的目光都落在同一个地方：<span @class="_sayoBx.colour"><<= _sayoBx.line>></span>
+<<if $sayonara.boxerNew>>
+	<br><br>
+	<img class="sayo-boxer-icon" @src="sayoBoxerIcon(_sayoBx.id)"> <span class="gold">你见识到了一种新的内裤：<<= _sayoBx.name>>（<<= _sayoBx.rarity>>）。</span>
+<</if>>
+<br><br>
+<<switch _sayoBx.id>>
+	<<case "face">>你盯着那张印在内裤上面带微笑的证件照，又抬头看了看礼顿本人的脸。你笑得差点岔了气。
+	<<case "glow">>眼前一亮。你确定刚才那一下没有开灯。
+	<<case "heart">>悉尼被自己的口水呛到，开始咳嗽。
+	<<case "duck">>其中一只小鸭子正好印在最中间，看起来很骄傲。
+	<<case "flower">>你感觉自己的眼睛被狠狠地扇了一下。不知道为什么，耳边好像响起了二人转。
+	<<case "checker">>悉尼歪着头，认真地数了一下格子。
+	<<default>>礼顿低头看了一眼，又抬头看了一眼你，脸从白变红，又从红变紫。
+<</switch>>
+<br><br>
+"跑！"你一把抓住悉尼的手。
+<br><br>
+礼顿想追，脚踝被自己的裤子缠住，往前一扑，在书架之间蹦了两步，"砰"地撞在了还书车上。你拉着悉尼冲到窗边，推开窗户，一前一后翻了出去。
+<<if _sayoBx.id is "glow">>
+	<br><br>
+	落地时你回头看了一眼。昏暗的书架之间，一团荧绿色的光正在气急败坏地乱窜。
+<</if>>
+<br><br>
+<<link [[Next|Sayonara Sydney Out]]>><<detention 12>><<status 5>><<npcincr Sydney love 2>><<run sayonaraSulk(5)>><<set $sayoSydneyPants to true>><</link>><<ggdelinquency>><<gcool>><<glove>>
+<br>
+
+:: Sayonara Sydney Run
+<<schooleffects>><<effects>><<run statusCheck("Sydney")>>
+你拽着悉尼冲过一排排书架，礼顿的吼声在身后追着你们。你推开窗户，先把悉尼推出去，自己也跟着翻了出去。
+<br><br>
+<<link [[Next|Sayonara Sydney Out]]>><<npcincr Sydney love 1>><<set $sayoSydneyPants to false>><</link>><<glove>>
+<br>
+
+:: Sayonara Sydney Out
+<<set $outside to 1>><<set $location to "school">><<schooleffects>><<effects>><<run statusCheck("Sydney")>>
+你们俩一路跑到教学楼背后，才扶着墙停下来，大口喘气。
+<br><br>
+<<if $sayoSydneyPants>>
+	<<if _sydneyStatus.includes("corrupt")>>
+		<<set _sayoRare to sayoBoxer($sayonara.boxerLast).rarity>>
+		悉尼靠着墙，笑得直不起腰。"你……你看见<<nnpc_his "Leighton">>那个表情了吗？"<<he>>抹了抹笑出来的眼泪，"我这辈子都忘不了。"<<He>>撞了一下你的肩膀。
+		<<switch _sayoRare>>
+			<<case "稀有">>"说真的，那条内裤真叫人印象深刻，是吧？"
+			<<case "史诗">>"太怪了。我没想到礼顿私下居然有那样的爱好！"
+			<<case "传说">>"我从来没在世界上任何一个地方见过那样的内裤。"<<He>>顿了顿，"我是说，任何一个地方。"
+			<<default>>"下次再有这种趣事，一定叫上我。"
+		<</switch>>
+	<<else>>
+		悉尼满脸通红，捂着胸口喘了半天，嘴里念叨着"这、这是不对的……神会……"。<<He>>忍了又忍，最后还是没忍住，捂着嘴笑出了声，然后又赶紧在胸口画了个十字。
+		<br><br>
+		"谢谢你，"<<he>>小声说，"……但是下次不要这样了。"<<He>>想了想，又补了一句，"至少别让我看见。"
+	<</if>>
+<<else>>
+	<<if _sydneyStatus.includes("corrupt")>>
+		"差一点，"悉尼喘着气，居然有点遗憾，"就差一点。"
+	<<else>>
+		悉尼捂着胸口，惊魂未定地看着你。"我们……我们就这么跑了？"<<He>>咬了咬嘴唇，"……谢谢你。"
+	<</if>>
+<</if>>
+<<unset $sayoSydneyPants>>
+<br><br>
+<<endevent>>
+<<link [[Next|Hallways]]>><</link>>
+<br>
