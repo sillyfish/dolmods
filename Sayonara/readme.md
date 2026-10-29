@@ -2,6 +2,8 @@
 让所有欺负过PC的人都付出代价。
 恶搞性质的模组，没有什么玩法上的拓展，~~可能会不适配过于温顺的pc~~目前该模组还在施工中，仅修改了一部分校园内的事件。
 
+点击此处下载模组压缩包：[Sayonara v0.9.1](https://github.com/sillyfish/dolmods/releases/tag/sayonara-v0.9.1)
+
 ⚠️以下涉及对模组内容的剧透，谨慎观看
 <details>
 <summary>修改事件一：River揪pc耳朵</summary>
